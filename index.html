@@ -197,9 +197,17 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50
 </section>
 
 <script>
-/* ===== 設定：貼上你的 Google Apps Script 網頁應用程式網址 ===== */
-const ENDPOINT = "請貼上你的_Apps_Script_網址";
-/* ============================================================ */
+/* 送出網址從同資料夾的 endpoint.txt 讀取，不需要改這個檔案 */
+let ENDPOINT = '';
+(async () => {
+  try {
+    const r = await fetch('endpoint.txt?v=' + Date.now());
+    if (r.ok) {
+      const t = (await r.text()).trim();
+      if (t.startsWith('http')) ENDPOINT = t;
+    }
+  } catch (e) {}
+})();
 
 const $ = s => document.querySelector(s);
 const show = id => {
